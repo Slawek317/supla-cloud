@@ -59,7 +59,6 @@ export function prettyBytes(bytes) {
 Vue.filter('withBaseUrl', withBaseUrl);
 Vue.filter('withDownloadAccessToken', withDownloadAccessToken);
 Vue.filter('intToIp', intToIp);
-Vue.filter('channelTitle', channelTitle);
 Vue.filter('deviceTitle', deviceTitle);
 Vue.filter('toUpperCase', (text) => text.toUpperCase());
 Vue.filter('ellipsis', ellipsis);
