@@ -17,7 +17,9 @@
 
 namespace SuplaDeveloperBundle\DataFixtures\ORM;
 
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use SuplaBundle\Auth\OAuthScope;
 use SuplaBundle\Entity\EntityUtils;
 use SuplaBundle\Entity\OAuth\AccessToken;
@@ -29,29 +31,38 @@ class UsersFixture extends SuplaFixture {
     const ORDER = 0;
 
     const USER = 'user';
+    /** @var UserManager */
+    private $userManager;
+    /** @var ApiClientRepository */
+    private $apiClientRepository;
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
+    public function __construct(UserManager $userManager, ApiClientRepository $apiClientRepository, EntityManagerInterface $entityManager) {
+        $this->userManager = $userManager;
+        $this->apiClientRepository = $apiClientRepository;
+        $this->entityManager = $entityManager;
+    }
 
     public function load(ObjectManager $manager) {
-        /** @var UserManager $userManager */
-        $userManager = $this->container->get(UserManager::class);
         $user = new User();
         $user->setEmail('user@supla.org');
         $user->agreeOnRules();
         $user->agreeOnCookies();
-        $userManager->create($user);
-        $userManager->setPassword('pass', $user, true);
-        $userManager->confirm($user->getToken());
+        $this->userManager->create($user);
+        $this->userManager->setPassword('pass', $user, true);
+        $this->userManager->confirm($user->getToken());
         $this->addReference(self::USER, $user);
 
         // create an always valid simple access token issued for webapp
-        $webappClient = $this->container->get(ApiClientRepository::class)->getWebappClient();
+        $webappClient = $this->apiClientRepository->getWebappClient();
         $token = new AccessToken();
         EntityUtils::setField($token, 'client', $webappClient);
         EntityUtils::setField($token, 'user', $user);
-        EntityUtils::setField($token, 'expiresAt', (new \DateTime('2035-01-01T00:00:00'))->getTimestamp());
+        EntityUtils::setField($token, 'expiresAt', (new DateTime('2035-01-01T00:00:00'))->getTimestamp());
         EntityUtils::setField($token, 'token', '0123456789012345678901234567890123456789');
         EntityUtils::setField($token, 'scope', (string)(new OAuthScope(OAuthScope::getSupportedScopes())));
-        $em = $this->container->get('doctrine')->getManager();
-        $em->persist($token);
-        $em->flush();
+        $this->entityManager->persist($token);
+        $this->entityManager->flush();
     }
 }
