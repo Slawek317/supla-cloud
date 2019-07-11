@@ -36,6 +36,7 @@ class IODeviceChannelSerializer extends AbstractSerializer {
      * IODeviceChannelSerializer constructor.
      */
     public function __construct(ChannelStateGetter $channelStateGetter, EntityManagerInterface $entityManager) {
+        parent::__construct();
         $this->channelStateGetter = $channelStateGetter;
         $this->entityManager = $entityManager;
     }

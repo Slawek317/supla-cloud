@@ -18,6 +18,7 @@
 namespace SuplaBundle\Entity;
 
 use Assert\Assertion;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -167,6 +168,11 @@ class IODeviceChannel implements HasFunction, HasLocation {
      */
     private $flags = 0;
 
+    public function __construct() {
+        $this->channelGroups = new ArrayCollection();
+        $this->directLinks = new ArrayCollection();
+    }
+
     public function getId(): int {
         return $this->id;
     }
@@ -236,8 +242,8 @@ class IODeviceChannel implements HasFunction, HasLocation {
     }
 
     /**
-     * @see RelayFunctionBits
      * @return int
+     * @see RelayFunctionBits
      */
     public function getFuncList(): int {
         return $this->funcList ?: 0;

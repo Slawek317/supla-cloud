@@ -33,6 +33,7 @@ class IODeviceSerializer extends AbstractSerializer implements NormalizerAwareIn
     private $scheduleManager;
 
     public function __construct(ScheduleManager $scheduleManager) {
+        parent::__construct();
         $this->scheduleManager = $scheduleManager;
     }
 

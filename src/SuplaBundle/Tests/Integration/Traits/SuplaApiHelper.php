@@ -18,7 +18,6 @@
 namespace SuplaBundle\Tests\Integration\Traits;
 
 use Assert\Assertion;
-use Psr\Container\ContainerInterface;
 use SuplaBundle\Entity\User;
 use SuplaBundle\Model\ApiVersions;
 use SuplaBundle\Supla\SuplaServerMockCommandsCollector;
@@ -26,9 +25,6 @@ use SuplaBundle\Tests\Integration\TestClient;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-/**
- * @property ContainerInterface $container
- */
 trait SuplaApiHelper {
     use UserFixtures;
 
@@ -52,7 +48,7 @@ trait SuplaApiHelper {
 
     protected function simulateAuthentication(User $user) {
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-        $this->container->get('security.token_storage')->setToken($token);
+        self::$container->get('security.token_storage')->setToken($token);
     }
 
     public function getSuplaServerCommands(Client $client): array {
