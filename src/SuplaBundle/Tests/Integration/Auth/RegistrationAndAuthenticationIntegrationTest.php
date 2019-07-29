@@ -319,13 +319,13 @@ class RegistrationAndAuthenticationIntegrationTest extends IntegrationTestCase {
         $client = $this->createHttpsClient();
         $client->apiRequest('POST', '/api/forgotten-password', ['email' => self::EMAIL]);
         $this->assertStatusCode(200, $client->getResponse());
-        $this->getDoctrine()->getManager()->refresh($this->createdUser);
+        $this->refreshCreatedUser();
         $initialToken = $this->createdUser->getToken();
         $client->apiRequest('POST', '/api/forgotten-password', ['email' => self::EMAIL]);
         $this->assertStatusCode(200, $client->getResponse());
         $messages = TestMailer::getMessages();
         $this->assertCount(1, $messages);
-        $this->getDoctrine()->getManager()->refresh($this->createdUser);
+        $this->refreshCreatedUser();
         $this->assertEquals($initialToken, $this->createdUser->getToken());
     }
 
@@ -336,13 +336,13 @@ class RegistrationAndAuthenticationIntegrationTest extends IntegrationTestCase {
         $client->apiRequest('POST', '/api/forgotten-password', ['email' => self::EMAIL]);
         $this->assertStatusCode(200, $client->getResponse());
         TestTimeProvider::setTime('+10 minutes');
-        $this->getDoctrine()->getManager()->refresh($this->createdUser);
+        $this->refreshCreatedUser();
         $initialToken = $this->createdUser->getToken();
         $client->apiRequest('POST', '/api/forgotten-password', ['email' => self::EMAIL]);
         $this->assertStatusCode(200, $client->getResponse());
         $messages = TestMailer::getMessages();
         $this->assertCount(2, $messages);
-        $this->getDoctrine()->getManager()->refresh($this->createdUser);
+        $this->refreshCreatedUser();
         $this->assertNotEquals($initialToken, $this->createdUser->getToken());
     }
 
