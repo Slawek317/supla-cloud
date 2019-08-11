@@ -59,9 +59,6 @@ class DirectLinkControllerIntegrationTest extends IntegrationTestCase {
         $this->getEntityManager()->flush();
     }
 
-    /**
-     * @return mixed
-     */
     private function createDirectLink(array $data = []): Response {
         $data = array_merge([
             'caption' => 'My link',
