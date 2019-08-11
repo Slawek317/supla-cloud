@@ -19,6 +19,7 @@ class TestClient extends KernelBrowser {
         }
         $server['HTTP_X-Requested-With'] = 'XMLHttpRequest';
         $server['ACCEPT'] = 'application/json';
+        $server['HTTP_Accept'] = 'application/json';
         $server['CONTENT_TYPE'] = 'application/json';
         if ($version !== null) {
             $server['HTTP_X_ACCEPT_VERSION'] = $version;
@@ -33,5 +34,9 @@ class TestClient extends KernelBrowser {
 
     public function apiRequestV23(string $method, string $uri, $content = [], array $params = [], array $files = [], array $server = []) {
         return $this->apiRequest($method, $uri, $content, $params, $files, $server, ApiVersions::V2_3);
+    }
+
+    public function apiRequestV24(string $method, string $uri, $content = [], array $params = [], array $files = [], array $server = []) {
+        return $this->apiRequest($method, $uri, $content, $params, $files, $server, ApiVersions::V2_4);
     }
 }
