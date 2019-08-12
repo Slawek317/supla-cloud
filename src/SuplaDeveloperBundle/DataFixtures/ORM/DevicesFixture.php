@@ -34,6 +34,7 @@ class DevicesFixture extends SuplaFixture {
     const DEVICE_SONOFF = 'deviceSonoff';
     const DEVICE_FULL = 'deviceFull';
     const DEVICE_RGB = 'deviceRgb';
+    const DEVICE_MEGA = 'deviceMega';
     const FULL_RELAY_BITS =
         RelayFunctionBits::CONTROLLINGTHEDOORLOCK |
         RelayFunctionBits::CONTROLLINGTHEGARAGEDOOR |
@@ -83,7 +84,7 @@ class DevicesFixture extends SuplaFixture {
             }, ChannelType::functions()[$type->getValue()]);
         }, $functionableTypes));
         $channels = call_user_func_array('array_merge', $channels);
-        return $this->createDevice($name, $location, $channels, 'megadevice');
+        return $this->createDevice($name, $location, $channels, self::DEVICE_MEGA);
     }
 
     protected function createDeviceRgb(Location $location): IODevice {
