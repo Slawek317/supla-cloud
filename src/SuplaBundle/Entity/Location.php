@@ -84,6 +84,12 @@ class Location {
     private $channelGroups;
 
     /**
+     * @ORM\OneToMany(targetEntity="Scene", mappedBy="location")
+     * @Groups({"scenes"})
+     */
+    private $scenes;
+
+    /**
      * @ORM\OneToMany(targetEntity="IODeviceChannel", mappedBy="location")
      * @Groups({"channels"})
      */
@@ -103,6 +109,7 @@ class Location {
         $this->ioDevices = new ArrayCollection();
         $this->ioDevices_ol = new ArrayCollection();
         $this->channelGroups = new ArrayCollection();
+        $this->scenes = new ArrayCollection();
         $this->channels = new ArrayCollection();
 
         if ($user) {
@@ -156,6 +163,11 @@ class Location {
     /** @return IODeviceChannelGroup[]|Collection */
     public function getChannelGroups(): Collection {
         return $this->channelGroups;
+    }
+
+    /** @return Scene[]|Collection */
+    public function getScenes(): Collection {
+        return $this->scenes;
     }
 
     /** @return IODeviceChannel[]|Collection */

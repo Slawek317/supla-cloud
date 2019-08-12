@@ -31,6 +31,7 @@ class SceneSerializer extends AbstractSerializer implements NormalizerAwareInter
     public function normalize($scene, $format = null, array $context = []) {
         $normalized = parent::normalize($scene, $format, $context);
         $normalized['userId'] = $scene->getUser()->getId();
+        $normalized['locationId'] = $scene->getLocation()->getId();
         $normalized['operationsIds'] = $this->toIds($scene->getOperations());
         return $normalized;
     }
